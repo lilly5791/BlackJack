@@ -21,7 +21,7 @@ int cardIndex = 0;
 //player info
 int dollar[N_MAX_USER];						//dollars that each player has
 int n_user;									//number of users
-int my_dollar;								//dollars that I bet
+int check;									//numbers of calling pullcard
 
 //play yard information
 int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD];	//cards that currently the players hold, [6][10]
@@ -93,6 +93,7 @@ int main(int argc, char *argv[]) {
 		roundIndex++;
 		
 	} while (gameEnd == 0);
+	
 	
 	checkWinner();
 	
