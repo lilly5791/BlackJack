@@ -15,17 +15,18 @@
 
 
 //card tray object
-int CardTray[N_CARDSET*N_CARD]; // I made it 2demention array. It was 1demention
+int CardTray[N_CARDSET*N_CARD]; //[1*52]
 int cardIndex = 0;							
 
 //player info
 int dollar[N_MAX_USER];						//dollars that each player has
 int n_user;									//number of users
+int my_dollar;								//dollars that I bet
 
 //play yard information
-int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD];	//cards that currently the players hold
-int cardSum[N_MAX_USER];					//sum of the cards
-int bet[N_MAX_USER];						//current betting 
+int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD];	//cards that currently the players hold, [6][10]
+int cardSum[N_MAX_USER];					//sum of the cards [5]
+int bet[N_MAX_USER];						//current betting  [5]
 int gameEnd = 0; 							//game end flag
 
 //some utility functions
@@ -44,134 +45,8 @@ int getIntegerInput(void) {
     return input;
 }
 
-
-//card processing functions ---------------
-
-//calculate the actual card number in the blackjack game
-int getCardNum(int cardnum) {
-	
-	cardnum =  
-}
-
-//print the card information (e.g. DiaA)
-void printCard(int cardnum) {
-	
-}
-
-
-//card array controllers -------------------------------
-
-//mix the card sets and put in the array
-int mixCardTray(void) {
-	int i, j;
-	
-	CardTray[N_CARDSET*N_CARD] 
-	
-	for(i=0; i<4; i++)
-	{
-		for(j=0; j<N_MAX_CARDNUM; j++)
-		{
-			CardTray[i][j] = 
-		}
-	}
-	
-}
-
-//get one card from the tray
-int pullCard(void) {
-}
-
-
-//playing game functions -----------------------------
-
-//player settiing
-int configUser(void) {
-
-	while(1)
-	{
-		printf("How many players do you want?: ");
-		scanf("%d", &n_user);
-		if(n_user > N_MAX_USER)
-			printf("Too many players!\n");
-		else
-			break;	
-	}
-	
-}
-
-
-//betting
-int betDollar(void) {
-	int i;
-	printf("")
-	for(i=0; i<n_user; i++)
-	{
-		dollar[i]
-	}
-
-
-	
-	printf("your betting(total %d) :", dollar[0]); //what
-	scanf("%d", )
-	
-}
-
-
-//offering initial 2 cards
-void offerCards(void) {
-	int i;
-	//1. give two card for each players
-	for (i=0;i<n_user;i++)
-	{
-		cardhold[i][0] = pullCard();
-		cardhold[i][1] = pullCard();
-	}
-	//2. give two card for the operator
-	cardhold[n_user][0] = pullCard();
-	cardhold[n_user][1] = pullCard();
-	
-	return;
-}
-
-//print initial card status
-void printCardInitialStatus(void) {
-	
-}
-
-int getAction(void) {
-	
-}
-
-
-void printUserCardStatus(int user, int cardcnt) {
-	int i;
-	
-	printf("   -> card : ");
-	for (i=0;i<cardcnt;i++)
-		printCard(cardhold[user][i]);
-	printf("\t ::: ");
-}
-
-
-
-
-// calculate the card sum and see if : 1. under 21, 2. over 21, 3. blackjack
-int calcStepResult() {
-	
-}
-
-int checkResult() {
-	
-}
-
-int checkWinner() {
-	
-}
-
-
-
 int main(int argc, char *argv[]) {
-	int roundIndex = 0;
+	int roundIndex = 1; 
 	int max_user;
 	int i;
 	
@@ -191,6 +66,8 @@ int main(int argc, char *argv[]) {
 
 	//Game start --------
 	do {
+		
+		printf("\n------------------ Round %d --------------------------\n", roundIndex);
 		
 		betDollar();
 		offerCards(); //1. give cards to all the players
@@ -212,10 +89,14 @@ int main(int argc, char *argv[]) {
 		
 		//result
 		checkResult();
+		
+		roundIndex++;
+		
 	} while (gameEnd == 0);
 	
 	checkWinner();
 	
+	printf("You played %d rounds\n", roundIndex);
 	
 	return 0;
 }
