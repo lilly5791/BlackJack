@@ -72,9 +72,12 @@ void offerCards(void) {
 void printCardInitialStatus(void) {
 	
 	printf(" ----------- CARD OFFERING ---------------\n");
-	printf("server\t: %d", printCard(2))
+	printf("server\t: " );
+	printCard(int );
+	printf("-> you\t: " );
+	printCard(int );
 	
-	server      : 7
+	server      : ? HRT8  
    -> you        : SPD7 HRT9
    -> player 1   : CLV1 SPDJack
 	
@@ -96,6 +99,14 @@ void printUserCardStatus(int user, int cardcnt) {
 	for (i=0;i<cardcnt;i++)
 		printCard(cardhold[user][i]);
 	printf("\t ::: ");
+	
+	
+//	printf(" ----------- CARD OFFERING ---------------\n");
+//	printf("server\t: " );
+//	printCard(int );
+//	printf("-> you\t: " );
+//	printCard(int ); 
+	
 }
 
 
@@ -103,7 +114,8 @@ void printUserCardStatus(int user, int cardcnt) {
 
 // calculate the card sum and see if : 1. under 21, 2. over 21, 3. blackjack
 int calcStepResult() {
-	dollar[j] = dollar[j]
+	
+	//if CardTray[i] = 13(CLVA) then calculate 1 or 11
 }
 
 int checkResult() {
