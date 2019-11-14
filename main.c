@@ -52,6 +52,8 @@ int main(int argc, char *argv[]) {
 	
 	srand((unsigned)time(NULL));
 	
+	
+	
 	//set the number of players
 	configUser();
 
@@ -89,6 +91,7 @@ int main(int argc, char *argv[]) {
 		
 		//result
 		checkResult();
+		//I think, after check result - plus or minus dollar that players have 
 		
 		roundIndex++;
 		
