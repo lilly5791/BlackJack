@@ -47,22 +47,22 @@ int getIntegerInput(void) {
 
 int main(int argc, char *argv[]) {
 	int roundIndex = 1; 
-	int max_user;
-	int i;
+//	int max_user; = n_user
+	int i, j=2;
 	
 	srand((unsigned)time(NULL));
 	
 	
 	
 	//set the number of players
-	configUser();
+	configUser(void);
 
 
 	//Game initialization --------
 	//1. players' dollar
 	
 	//2. card tray
-	mixCardTray();
+	mixCardTray(void);
 
 
 
@@ -71,27 +71,35 @@ int main(int argc, char *argv[]) {
 		
 		printf("\n------------------ Round %d --------------------------\n", roundIndex);
 		
-		betDollar();
-		offerCards(); //1. give cards to all the players
+		betDollar(void);
+		offerCards(void); //1. give cards to all the players
 		
-		printCardInitialStatus();
+		printCardInitialStatus(void);
 		printf("\n------------------ GAME start --------------------------\n");
 		
 		//each player's turn
-		for () //each player
+		for (i=0; i<n_user; i++) //each player
 		{
-			while () //do until the player dies or player says stop
+			while (1) //do until the player dies or player says stop
 			{
-				//print current card status printUserCardStatus();
-				//check the card status ::: calcStepResult()
-				//GO? STOP? ::: getAction()
+				printUserCardStatus(i, j);//print current card status printUserCardStatus();
+				if(calcStepResult(i, j) < 21)//check the card status ::: calcStepResult()
+					getAction(void);//GO? STOP? ::: getAction()
+				else if(calcStepResult(i, j) > 21)
+				{
+					printUserCardStatus(i, j);
+					printf("::: DEAD (sum:%d) ---> -$%d ($%d)\n", calcStepResult(i, j), bet[i],dollar[i]-bet[i] )
+				}
+					
+				
 				//check if the turn ends or not
 			}
+			DEAD (sum:26) --> -$2 ($48)
 		}
 		
 		//result
 		checkResult();
-		//I think, after check result - plus or minus dollar that players have 
+		//I think, after check result - plus or minus dollar that players have no
 		
 		roundIndex++;
 		
