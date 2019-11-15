@@ -2,19 +2,20 @@
 
 //player settiing
 int configUser(void) {
-
+	int user; // user = n_user
 	do
 	{
 		printf("How many players do you want?: ");
-		scanf("%d", &n_user);
-		if(n_user > 5)
+		scanf("%d", &user);
+		if(user > 5)
 			printf("Too many players!\n");
-		else if(n_user <= 0)
+		else if(user <= 0)
 			printf("Too little players!\n");
 		else
-			return n_user;
-	}while(n_user > 5 || n_user <= 0 );
-	
+			n_user = user;
+	}while(user > 5 || user <= 0 );
+
+	return 0;
 }
 
 
@@ -22,33 +23,30 @@ int configUser(void) {
 int betDollar(void) {
 	int i, j;
 	
-    printf("---------BETTING STEP-----------");	
-	for(i=0; i<n_user; i++)
-	{
-		dollar[i] = N_DOLLAR; // making dollar array 0 to n_user
-	}
+    printf("---------BETTING STEP-----------\n");	
 	
 	do
 	{
-	printf("your betting(total %d) :", dollar[0]); 
-	scanf("%d", &bet[0]); // what
-	
-	if(bet[0] > dollar[0])
-		printf("You don't have that money\n");
-	else if(bet[0] <= 0)
-		printf("You have to pay more than that\n");
+		printf("your betting(total %d) :", dollar[0]); 
+		scanf("%d", &bet[0]); // what
+		
+		if(bet[0] > dollar[0])
+			printf("You don't have that money\n");
+		else if(bet[0] <= 0)
+			printf("You have to pay more than that\n");
 	
 	}while(bet[0] > dollar[0] || bet[0] <= 0) 
 	
 	
 	for(j=1; j<n_user; j++)
 	{
-		bet[j] = #define N_MAX_BET + 1; // % 
+		bet[j] = rand()%N_MAX_BET + 1;  
 		printf("player[%d] bets $%d (out of &%d)\n", j, bet[j], dollar[j]);
 	}
 
-	printf("----------------------------\n");	
+	printf("----------------------------\n");
 	
+	return 0;	
 }
 
 
@@ -64,8 +62,7 @@ void offerCards(void) {
 	//2. give two card for the operator (dealer)
 	cardhold[n_user][0] = pullCard();
 	cardhold[n_user][1] = pullCard();
-	
-	return;
+
 }
 
 //print initial card status
@@ -85,7 +82,7 @@ void printCardInitialStatus(void) {
 	
 	for(i=1; i<n_user; i++)
 	{
-		printf("-> player[%d]\n:", i);
+		printf("-> player[%d]\t:", i);
 		printCard(cardhold[i][0]); // player1 has cardhold[][]
 		printCard(cardhold[i][1]);
 		printf("\n");
@@ -93,41 +90,44 @@ void printCardInitialStatus(void) {
 
 }
 
-int getAction(void) {
+int getAction(int i, int j) {
 	int go;
 	
-	printf(">>> my turn! -------------\n");
-	printf("   -> card :"); 
-	printCard(cardhold[0][0]);
-	printCard(cardhold[0][1]);
-	
-	  
-	printf("::: Action? (0 - go, others - stay) :");
-	scanf("%d", go);
-	if (go == 0)
+	if(i==0) //me
 	{
-		calcStepResult()
+		printf("::: Action? (0 - go, others - stay) :");
+		scanf("%d", go);
+			
+		if(go == 0)
+		{
+			cardhold[i][j+1] = pullCard();
+			return 0;
+		}
+		else 
+			return 1;
 	}
-	else 	
+	else //other players
+	{
+		if (cardSum[i]	< 17 )	
+		{	
+			cardhold[i][j+1] = pullCard();
+			return 0;	
+		}
+		else
+			return 1;
+	}
 	
 
 }
 
 
-void printUserCardStatus(int user, int cardcnt) { 
-	int i;
+void printUserCardStatus(int user, int cardcnt) {  //cardhold[][]
+	int j;
 	
 	printf("   -> card : ");
-	for (i=0;i<cardcnt;i++)
-		printCard(cardhold[user][i]);
+	for (j=0;j<cardcnt;j++)
+		printCard(cardhold[user][j]);
 	printf("\t ::: ");
-	
-	
-//	printf(" ----------- CARD OFFERING ---------------\n");
-//	printf("server\t: " );
-//	printCard(int );
-//	printf("-> you\t: " );
-//	printCard(int ); 
 	
 }
 
@@ -135,18 +135,73 @@ void printUserCardStatus(int user, int cardcnt) {
 
 
 // calculate the card sum and see if : 1. under 21, 2. over 21, 3. blackjack
-int calcStepResult() {
+int calcStepResult(int user, int cardcnt) {
 	
-	int i, sum;
+	int j, sum;
 	
-	for
-	
-	getCardNum(cardhold[][]) += 
+	for(j=0;j<cardcnt;j++)
+	{
+		cardSum[user] += getCardNum(cardhold[user][j]);
+	}
+	sum = cardSum[user];
+	if(getCardNum(cardhold[user][j]) == 11 && sum > 21 )
+	{
+		if(sum-10 > 21)
+			return sum-10;
+		else if(sum-10 == 21)
+			return sum;
+		else if(sum-10 < 21)
+			return sum;	
+	}	
+
 	//if CardTray[i] = 13(CLVA) then calculate 1 or 11
 }
 
-int checkResult() {
+int checkResult(int roundindex) {
+	printf("-------------------ROUND %d result-----------------\n", roundindex);
 	
+	for(int i=0;i<n_user;i++)
+	{
+		if(i==0)
+			printf("your result : ");
+		else if(i>0 && i<n_user)
+			printf("player[%d] result : ", i);
+	
+		if(cardSum[n_user] > 21) // everybody wins, server lose
+		{
+			if(cardSum[i] <= 21)
+				printf("win (sum: %d) --> $%d",cardSum[i],dollar[i]);
+			else 				
+				printf("lose due to overflow! ($%d)", dollar[i]);
+			
+		}
+		else if (cardSum[n_user] == 21) //server win - blackjack
+		{
+			if(cardSum[i] == 21)
+				printf("win (sum: %d) --> $%d",cardSum[i],dollar[i]);
+			else 				
+				printf("lose! ($%d)", dollar[i]);
+		}
+		else 
+		{
+			if(cardSum[i] < 21 && cardSum[i] >= cardSum[n_user])//player wins
+			{
+				printf("win (sum: %d) --> $%d",cardSum[i],dollar[i]);
+			}
+			else if(cardSum[i] < 21 && cardSum[i] < cardSum[n_user]) //server wins
+			{
+				printf("lose! ($%d)", dollar[i]);
+			}
+			else if(cardSum[i] == 21)
+			{
+				printf("win (sum: %d) --> $%d",cardSum[i],dollar[i]);
+			}
+			else if(cardSum[i] > 21)
+			{
+				printf("lose due to overflow! ($%d)", dollar[i]);
+			}
+		}
+	}
 }
 
 int checkWinner() {

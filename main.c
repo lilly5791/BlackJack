@@ -21,7 +21,7 @@ int cardIndex = 0;
 //player info
 int dollar[N_MAX_USER];						//dollars that each player has
 int n_user;									//number of users
-int check;									//numbers of calling pullcard
+int playercardhold[N_MAX_USER] = {2,2,2,2,2};				//card number of each player
 
 //play yard information
 int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD];	//cards that currently the players hold, [6][10]
@@ -48,18 +48,19 @@ int getIntegerInput(void) {
 int main(int argc, char *argv[]) {
 	int roundIndex = 1; 
 //	int max_user; = n_user
-	int i, j=2;
+	int i; // j is card number that each player has.
 	
 	srand((unsigned)time(NULL));
-	
-	
 	
 	//set the number of players
 	configUser(void);
 
 
 	//Game initialization --------
-	//1. players' dollar
+	for(i=0; i<n_user; i++) //1. players' dollar
+	{
+		dollar[i] = N_DOLLAR; // making dollar array 0 to n_user
+	}
 	
 	//2. card tray
 	mixCardTray(void);
@@ -69,7 +70,7 @@ int main(int argc, char *argv[]) {
 	//Game start --------
 	do {
 		
-		printf("\n------------------ Round %d --------------------------\n", roundIndex);
+		printf("\n------------------ Round %d (card index %d)--------------------------\n", roundIndex, cardIndex);
 		
 		betDollar(void);
 		offerCards(void); //1. give cards to all the players
@@ -80,29 +81,48 @@ int main(int argc, char *argv[]) {
 		//each player's turn
 		for (i=0; i<n_user; i++) //each player
 		{
+			if(i==0)
+				printf(">>> my turn! -------------\n");
+			else if(i>0 && i<n_user)
+				printf(">>> player %d turn! -------------\n", i);
+			else if(i==n_user)
+				printf(">>> dealer turn! -------------\n");	
+			
 			while (1) //do until the player dies or player says stop
 			{
-				printUserCardStatus(i, j);//print current card status printUserCardStatus();
-				if(calcStepResult(i, j) < 21)//check the card status ::: calcStepResult()
-					getAction(void);//GO? STOP? ::: getAction()
-				else if(calcStepResult(i, j) > 21)
+				printUserCardStatus(i, playercardhold[i]);//print current card status printUserCardStatus();
+				if(calcStepResult(i,playercardhold[i]) < 21)//check the card status ::: calcStepResult()
 				{
-					printUserCardStatus(i, j);
-					printf("::: DEAD (sum:%d) ---> -$%d ($%d)\n", calcStepResult(i, j), bet[i],dollar[i]-bet[i] )
+					if(getAction(i,playercardhold[i]) != 0) //GO? STOP? ::: getAction()
+						break;
 				}
-					
+
+				else if(calcStepResult(i, playercardhold[i]) > 21)
+				{
+					printUserCardStatus(i, playercardhold[i]);
+					dollar[i] = dollar[i]-bet[i]
+					printf("::: DEAD (sum:%d) ---> -$%d ($%d)\n", calcStepResult(i, playercardhold[i]), bet[i],dollar[i])
+					break;
+				}
 				
+				else if(calcStepResult(i, playercardhold[i]) == 21)
+				{
+					printUserCardStatus(i, playercardhold[i]);
+					dollar[i] = dollar[i]+ 2*bet[i]
+					printf("Black Jack!!!congratulation, you win!! --> +$%d ($%d)\n", calcStepResult(i, playercardhold[i]), bet[i],dollar[i])
+					break;
+				}
+				playercardhold[i]++; 	
 				//check if the turn ends or not
 			}
-			DEAD (sum:26) --> -$2 ($48)
+		
 		}
 		
 		//result
-		checkResult();
-		//I think, after check result - plus or minus dollar that players have no
+		checkResult(roundIndex);
 		
 		roundIndex++;
-		
+		playercardhold[N_MAX_USER] = {2,2,2,2,2};
 	} while (gameEnd == 0);
 	
 	
