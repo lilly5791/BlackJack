@@ -126,14 +126,14 @@ int main(int argc, char *argv[]) {
 				else if(cardSum[i] > 21)
 				{
 					dollar[i] = dollar[i]-bet[i];
-					printf("::: DEAD (sum:%d) ---> -$%d ($%d)\n", cardSum[i], bet[i],dollar[i]);
+					printf("::: DEAD (sum:%d) ---> -$%d ($%d)\n", cardSum[i], bet[i], dollar[i]);
 					break;
 				}
 				
 				else if(cardSum[i] == 21)
 				{
 					dollar[i] = dollar[i]+ 2*bet[i];
-					printf("Black Jack!!!congratulation, you win!! --> +$%d ($%d)\n", bet[i],dollar[i]);
+					printf("Black Jack!!!congratulation, you win!! --> +$%d ($%d)\n", 2*bet[i],dollar[i]);
 					break;
 				}		
 				playercardhold[i]++; 					
@@ -356,7 +356,7 @@ int betDollar(void) {
 	for(j=1; j<n_user; j++)
 	{
 		bet[j] = rand()%N_MAX_BET + 1;  
-		printf("player[%d] bets $%d (out of &%d)\n", j, bet[j], dollar[j]);
+		printf("player[%d] bets $%d (out of $%d)\n", j, bet[j], dollar[j]);
 	}
 
 	printf("----------------------------\n");
@@ -520,27 +520,42 @@ int checkResult(int roundindex) {
 	
 		if(cardSum[n_user] > 21) // server lose, anyone who is less 21 wins
 		{
-			if(cardSum[i] <= 21)
-				printf("win (sum: %d) --> $%d",cardSum[i],dollar[i]);
-			else 				
+			if(cardSum[i] < 21)
+			{
+				dollar[i] = dollar[i]+bet[i];
+				printf("win (sum: %d) --> $%d",cardSum[i], dollar[i]);
+			}
+			else 
+			{
+				dollar[i] = dollar[i]-bet[i];				
 				printf("lose due to overflow! ($%d)", dollar[i]);
+			}
 			
 		}
 		else if (cardSum[n_user] == 21) //server win - blackjack
 		{
 			if(cardSum[i] == 21)
+			{
 				printf("win (sum: %d) --> $%d",cardSum[i],dollar[i]);
-			else 				
+			}
+			else 		
+			{		
+				if(cardSum[i] < 21)
+					dollar[i] = dollar[i]-bet[i];
+					
 				printf("lose! ($%d)", dollar[i]);
+			}
 		}
-		else 
+		else //sever is less than 21
 		{
 			if(cardSum[i] < 21 && cardSum[i] >= cardSum[n_user])//player wins
 			{
+				dollar[i] = dollar[i]+bet[i];
 				printf("win (sum: %d) --> $%d\n",cardSum[i],dollar[i]);
 			}
 			else if(cardSum[i] < 21 && cardSum[i] < cardSum[n_user]) //server wins
 			{
+				dollar[i] = dollar[i]-bet[i];
 				printf("lose! ($%d)\n", dollar[i]);
 			}
 			else if(cardSum[i] == 21)
@@ -555,7 +570,7 @@ int checkResult(int roundindex) {
 	}
 }
 
-int checkWinner(user) {
+int checkWinner(int user) {
 	
 	int i, userIndex, max_dollar=0;
 	
@@ -576,3 +591,5 @@ int checkWinner(user) {
 	else	
 		printf("player[%d] has %d dollars so you lose", dollar[userIndex]);
 }
+
+
