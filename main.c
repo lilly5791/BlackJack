@@ -25,7 +25,7 @@ int playercardhold[N_MAX_USER] = {2,2,2,2,2};				//card number of each player
 
 //play yard information
 int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD];	//cards that currently the players hold, [6][10]
-int cardSum[N_MAX_USER];					//sum of the cards [5]
+int cardSum[N_MAX_USER+1];					//sum of the cards [5]
 int bet[N_MAX_USER];						//current betting  [5]
 int gameEnd = 0; 							//game end flag
 
@@ -50,10 +50,12 @@ int main(int argc, char *argv[]) {
 //	int max_user; = n_user
 	int i; // j is card number that each player has.
 	
+	int k, w; //initialize player card hold, if one player is out of money then game ends
+	
 	srand((unsigned)time(NULL));
 	
 	//set the number of players
-	configUser(void);
+	configUser();
 
 
 	//Game initialization --------
@@ -63,7 +65,7 @@ int main(int argc, char *argv[]) {
 	}
 	
 	//2. card tray
-	mixCardTray(void);
+	mixCardTray();
 
 
 
@@ -72,10 +74,10 @@ int main(int argc, char *argv[]) {
 		
 		printf("\n------------------ Round %d (card index %d)--------------------------\n", roundIndex, cardIndex);
 		
-		betDollar(void);
-		offerCards(void); //1. give cards to all the players
+		betDollar();
+		offerCards(); //1. give cards to all the players
 		
-		printCardInitialStatus(void);
+		printCardInitialStatus();
 		printf("\n------------------ GAME start --------------------------\n");
 		
 		//each player's turn
@@ -100,16 +102,16 @@ int main(int argc, char *argv[]) {
 				else if(calcStepResult(i, playercardhold[i]) > 21)
 				{
 					printUserCardStatus(i, playercardhold[i]);
-					dollar[i] = dollar[i]-bet[i]
-					printf("::: DEAD (sum:%d) ---> -$%d ($%d)\n", calcStepResult(i, playercardhold[i]), bet[i],dollar[i])
+					dollar[i] = dollar[i]-bet[i];
+					printf("::: DEAD (sum:%d) ---> -$%d ($%d)\n", calcStepResult(i, playercardhold[i]), bet[i],dollar[i]);
 					break;
 				}
 				
 				else if(calcStepResult(i, playercardhold[i]) == 21)
 				{
 					printUserCardStatus(i, playercardhold[i]);
-					dollar[i] = dollar[i]+ 2*bet[i]
-					printf("Black Jack!!!congratulation, you win!! --> +$%d ($%d)\n", calcStepResult(i, playercardhold[i]), bet[i],dollar[i])
+					dollar[i] = dollar[i]+ 2*bet[i];
+					printf("Black Jack!!!congratulation, you win!! --> +$%d ($%d)\n", calcStepResult(i, playercardhold[i]), bet[i],dollar[i]);
 					break;
 				}
 				playercardhold[i]++; 	
@@ -122,11 +124,35 @@ int main(int argc, char *argv[]) {
 		checkResult(roundIndex);
 		
 		roundIndex++;
-		playercardhold[N_MAX_USER] = {2,2,2,2,2};
+		for(k = 0; k<n_user; k++) // initialize player card hold
+			playercardhold[k] = 2;
+			
+		//escape this for() to end game
+		if(cardIndex > N_CARD * N_CARDSET) // if out of card then game ends	
+		{
+			printf("Out of Card!! Game Ends!\n");
+			gameEnd = 1;
+		}
+
+		for(w = 0; w<n_user; w++) // if one player is out of money then game ends
+		{
+			if(dollar[0] <= 0)
+			{
+				printf("You go bankrupt!! Game Ends!\n");
+				gameEnd = 1;
+			}
+			
+			if(w > 0 && dollar[w] <= 0)
+			{
+				printf("player[%d] goes bankrupt!! Game Ends!\n");
+				gameEnd = 1;
+			}	
+		}	
+			
 	} while (gameEnd == 0);
 	
 	
-	checkWinner();
+	checkWinner(n_user);
 	
 	printf("You played %d rounds\n", roundIndex);
 	

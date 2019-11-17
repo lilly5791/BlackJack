@@ -35,7 +35,7 @@ int betDollar(void) {
 		else if(bet[0] <= 0)
 			printf("You have to pay more than that\n");
 	
-	}while(bet[0] > dollar[0] || bet[0] <= 0) 
+	}while(bet[0] > dollar[0] || bet[0] <= 0);
 	
 	
 	for(j=1; j<n_user; j++)
@@ -158,16 +158,17 @@ int calcStepResult(int user, int cardcnt) {
 }
 
 int checkResult(int roundindex) {
+	int i;
 	printf("-------------------ROUND %d result-----------------\n", roundindex);
 	
-	for(int i=0;i<n_user;i++)
+	for(i=0;i<n_user;i++)
 	{
 		if(i==0)
 			printf("your result : ");
 		else if(i>0 && i<n_user)
 			printf("player[%d] result : ", i);
 	
-		if(cardSum[n_user] > 21) // everybody wins, server lose
+		if(cardSum[n_user] > 21) // server lose, anyone who is less 21 wins
 		{
 			if(cardSum[i] <= 21)
 				printf("win (sum: %d) --> $%d",cardSum[i],dollar[i]);
@@ -204,6 +205,24 @@ int checkResult(int roundindex) {
 	}
 }
 
-int checkWinner() {
+int checkWinner(user) {
 	
+	int i, userIndex, max_dollar=0;
+	
+	for(i=0; i<user; i++)
+	{
+		if(dollar[i] > max_dollar)
+			max_dollar = dollar[i];
+	}
+	
+	for(userIndex=0; userIndex<user; userIndex++)
+	{
+		if(max_dollar = dollar[userIndex])
+			break;
+	}
+	
+	if(userIndex == 0)
+		printf("Congratulation! You have %d dollars so you win!", dollar[0]);
+	else	
+		printf("player[%d] has %d dollars so you lose", dollar[userIndex]);
 }

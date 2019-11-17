@@ -4,8 +4,8 @@
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
-OBJ      = main.o "card\ processing\ functions.o" "card\ array\ controllers.o" "playing\ game\ functions.o"
-LINKOBJ  = main.o "card processing functions.o" "card array controllers.o" "playing game functions.o"
+OBJ      = main.o "card\ processing\ functions.o" "card\ array\ controllers.o" "playing\ game\ functions.o" UniteSourceTemporary.o
+LINKOBJ  = main.o "card processing functions.o" "card array controllers.o" "playing game functions.o" UniteSourceTemporary.o
 LIBS     = -L"C:/code cpp/Dev-Cpp/MinGW64/lib" -L"C:/code cpp/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -g3
 INCS     = -I"C:/code cpp/Dev-Cpp/MinGW64/include" -I"C:/code cpp/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/code cpp/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/code cpp/Dev-Cpp/MinGW64/include" -I"C:/code cpp/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/code cpp/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/code cpp/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -35,3 +35,6 @@ main.o: main.c
 
 "playing\ game\ functions.o": playing\ game\ functions.c
 	$(CC) -c "playing game functions.c" -o "playing game functions.o" $(CFLAGS)
+
+UniteSourceTemporary.o: UniteSourceTemporary.c
+	$(CC) -c UniteSourceTemporary.c -o UniteSourceTemporary.o $(CFLAGS)
