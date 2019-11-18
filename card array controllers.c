@@ -31,8 +31,9 @@ int mixCardTray(void) {
 
 //get one card from the tray
 int pullCard(void) {
-	
 	cardIndex++;
+	//printf("*****[%d]%d*********//", cardIndex, cardhold[user][j]);
+	//printf("\n***********cardIndex value : %d  ********\n", cardIndex);
 	return CardTray[cardIndex-1];
 
 	

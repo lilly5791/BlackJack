@@ -35,39 +35,40 @@ int getCardNum(int cardnum) {
 void printCard(int cardnum) {
 	
 	if(cardnum / (13*N_CARDSET) == 0)
-		printf("DIA ");
+		printf("DIA");
 	else if(cardnum / (13*N_CARDSET) == 1)
-		printf("SPD ");
+		printf("SPD");
 	else if(cardnum / (13*N_CARDSET) == 2)
-		printf("CLV ");
+		printf("CLV");
 	else if(cardnum / (13*N_CARDSET) == 3)
-		printf("HRT ");			
+		printf("HRT");			
 	
 	if(cardnum % (13*N_CARDSET) == 0)
-		printf("A");
+		printf("A ");
 	else if(cardnum % (13*N_CARDSET) == 1)
-		printf("2");
+		printf("2 ");
 	else if(cardnum % (13*N_CARDSET) == 2)
-		printf("3");
+		printf("3 ");
 	else if(cardnum % (13*N_CARDSET) == 3)
-		printf("4");			
+		printf("4 ");			
 	else if(cardnum % (13*N_CARDSET) == 4)
-		printf("5");
+		printf("5 ");
 	else if(cardnum % (13*N_CARDSET) == 5)
-		printf("6");
+		printf("6 ");
 	else if(cardnum % (13*N_CARDSET) == 6)
-		printf("7");
+		printf("7 ");
 	else if(cardnum % (13*N_CARDSET) == 7)
-		printf("8");
+		printf("8 ");
 	else if(cardnum % (13*N_CARDSET) == 8)
-		printf("9");			
+		printf("9 ");			
 	else if(cardnum % (13*N_CARDSET) == 9)
-		printf("10");
+		printf("10 ");
 	else if(cardnum % (13*N_CARDSET) == 10)
-		printf("Jack");
+		printf("Jack ");
 	else if(cardnum % (13*N_CARDSET) == 11)
-		printf("Queen");
+		printf("Queen ");
 	else if(cardnum % (13*N_CARDSET) == 12)
-		printf("King");	
+		printf("King ");	
 	
 }
+
