@@ -19,7 +19,7 @@ int mixCardTray(void) {
    int i;
    int j = 0;
    
-   for(i=0; i<N_CARD * N_CARDSET; i++) // CardTray[] is 0 to 51
+   for(i=0; i<N_CARD * N_CARDSET; i++) // CardTray[] is 0 to N_CARD*N_CARDSET
    {
       CardTray[i] = j;
       j++;

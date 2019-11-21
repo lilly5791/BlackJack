@@ -85,11 +85,11 @@ int main(int argc, char *argv[]) {
          
       for (i=0; i<=n_user; i++) //each player
       {
-         if(i==0)
+         if(i==0)// array 0 is mine
             printf("\n>>> my turn! -------------\n");
-         else if(i>0 && i<n_user)
+         else if(i>0 && i<n_user)//array 1 ~ (user-1) is player
             printf("\n>>> player %d turn! -------------\n", i);
-         else if(i==n_user)
+         else if(i==n_user)//array n_user is server 
             printf("\n>>> server turn! -------------\n");
          
          while (1) //do until the player dies or player says stop
@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
 
             else if(cardSum[i] > 21)
             {
-               if(i!=n_user)
+               if(i!=n_user)//if you and player turn then calculate Dead 
                {
                   dollar[i] = dollar[i]-bet[i];
                   printf("::: DEAD (sum:%d) ---> -$%d ($%d)\n", cardSum[i], bet[i], dollar[i]);
@@ -120,7 +120,7 @@ int main(int argc, char *argv[]) {
                break;
             }
             
-            else if(cardSum[i] == 21)
+            else if(cardSum[i] == 21)//if you and player turn then calculate Blackjack
             {
                if(i!=n_user)
                {

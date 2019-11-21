@@ -25,10 +25,8 @@ int configUser(void) {
    {
 		printf("How many players do you want?(1 to 5): ");
     	user=getIntegerInput();
-    	if(user > 5)
-        	printf("Too many players!\n");
-    	else if(user <= 0)
-        	printf("Too little players!\n");
+    	if(user > 5 || user <= 0)
+        	printf("You have to input 1 to 5 number!\n");
     	else
         	n_user = user;
    }while(user > 5 || user <= 0 );
@@ -58,7 +56,7 @@ int betDollar(void) {
    
    for(j=1; j<n_user; j++)
    {
-      bet[j] = rand()%N_MAX_BET + 1; // player's betting dollar is 1 to 5
+      bet[j] = rand()%N_MAX_BET + 1; // player's betting dollar is 1 to N_MAX_BET
       printf("player[%d] bets $%d (out of $%d)\n", j, bet[j], dollar[j]);
    }
 
@@ -74,10 +72,10 @@ void offerCards(void) {
    //1. give two card for each players
    for (i=0;i<n_user;i++)
    {
-      cardhold[i][0] = pullCard(); //input cardhold[][] 0 to 51 in random
+      cardhold[i][0] = pullCard(); //input cardhold[][] 0 to N_CARD*N_CARDSET in random
       cardhold[i][1] = pullCard();
    }
-   //2. give two card for the operator (dealer)
+   //2. give two card for the server (dealer)
    cardhold[n_user][0] = pullCard();
    cardhold[n_user][1] = pullCard();
 
@@ -165,11 +163,11 @@ int calcStepResult(int user, int cardcnt) {
    
    for(j=0;j<cardcnt;j++)
    {
-      if(getCardNum(cardhold[user][j]) == 11)
+      if(getCardNum(cardhold[user][j]) == 11) // if you have A then add anum
       {
          anum++;
       }
-      else
+      else // if you don't have A then just calculate cardSum
       {
          cardSum[user] += getCardNum(cardhold[user][j]);
       }
@@ -178,31 +176,31 @@ int calcStepResult(int user, int cardcnt) {
 
    if(cardSum[user] > 10)
    {
-      if(anum != 0)
+      if(anum != 0) 
       {
-         cardSum[user] = cardSum[user] + anum * 1;
+         cardSum[user] = cardSum[user] + anum * 1; // A is 1
       }
    }
    else if(cardSum[user] == 10)
    {
       if (anum > 1)
       {
-         cardSum[user] = cardSum[user] + anum * 1;
+         cardSum[user] = cardSum[user] + anum * 1; // A is 1
       }
       else if (anum == 1)
       {
-         cardSum[user] = cardSum[user] + 11; // blackjack
+         cardSum[user] = cardSum[user] + 11; // A is 11 and then blackjack
       }
    }
    else // cardsum < 10
    {
       if(anum >= 2)
       {
-         cardSum[user] = cardSum[user] + 11 + (anum-1)* 1;
+         cardSum[user] = cardSum[user] + 11 + (anum-1)* 1; // one A is 11 and the others are 11
       }
       else if(anum == 1)
       {
-         cardSum[user] = cardSum[user] + 11;
+         cardSum[user] = cardSum[user] + 11; // A is 11
       }
    }
    
@@ -280,17 +278,18 @@ int checkResult(int roundindex) {
 
 int checkWinner(int user) {
    
-   int i, winnerIndex, max_dollar=0;
+   int i, winnerIndex, //winnerIndex is to define player: if you win then winnerIndex is 0, if player1 wins then winnerIndex is 1
+   int max_dollar=0; // max_dollar is Maximum dollar which players have
    
-   for(i=0; i<user; i++)
+   for(i=0; i<user; i++)//define max_dollar
    {
       if(dollar[i] > max_dollar)
          max_dollar = dollar[i];
    }
    
-   for(winnerIndex=0; winnerIndex<user; winnerIndex++)
+   for(winnerIndex=0; winnerIndex<user; winnerIndex++)//to find who wins
    {
-      if(max_dollar == dollar[winnerIndex])
+      if(max_dollar == dollar[winnerIndex]) 
          break;
    }
    
