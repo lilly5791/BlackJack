@@ -45,9 +45,7 @@
 
 int main(int argc, char *argv[]) {
    int roundIndex = 1;
-//   int max_user; = n_user
-   int i; // j is card number that each player has.
-   
+   int i; 
    int k, w; //initialize player card hold, if one player is out of money then game ends
    
    srand((unsigned)time(NULL));
@@ -65,15 +63,8 @@ int main(int argc, char *argv[]) {
    //2. card tray
    mixCardTray();
 
-
-   for(i=0;i<52;i++)
-   {
-      printf("[%d]%d   ", i, CardTray[i]);
-   }
-
    //Game start --------
    do {
-      //escape this for() to end game
       if(cardIndex >= N_CARD * N_CARDSET) // if out of card then game ends
       {
          printf("\nOut of Card!! Game Ends!\n");
@@ -99,7 +90,7 @@ int main(int argc, char *argv[]) {
          else if(i>0 && i<n_user)
             printf("\n>>> player %d turn! -------------\n", i);
          else if(i==n_user)
-            printf("\n>>> dealer turn! -------------\n");
+            printf("\n>>> server turn! -------------\n");
          
          while (1) //do until the player dies or player says stop
          {

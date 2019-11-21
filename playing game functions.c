@@ -20,16 +20,17 @@ int getIntegerInput(void) {
 //player settiing
 int configUser(void) {
    int user; // user = n_user
+   
    do
    {
-      printf("How many players do you want?: ");
-      scanf("%d", &user);
-      if(user > 5)
-         printf("Too many players!\n");
-      else if(user <= 0)
-         printf("Too little players!\n");
-      else
-         n_user = user;
+		printf("How many players do you want?(1 to 5): ");
+    	user=getIntegerInput();
+    	if(user > 5)
+        	printf("Too many players!\n");
+    	else if(user <= 0)
+        	printf("Too little players!\n");
+    	else
+        	n_user = user;
    }while(user > 5 || user <= 0 );
 
    return 0;
@@ -45,7 +46,7 @@ int betDollar(void) {
    do
    {
       printf("your betting(total %d) :", dollar[0]);
-      scanf("%d", &bet[0]); // what
+      scanf("%d", &bet[0]); // you choose your betting dollar
       
       if(bet[0] > dollar[0])
          printf("You don't have that money\n");
@@ -57,7 +58,7 @@ int betDollar(void) {
    
    for(j=1; j<n_user; j++)
    {
-      bet[j] = rand()%N_MAX_BET + 1;
+      bet[j] = rand()%N_MAX_BET + 1; // player's betting dollar is 1 to 5
       printf("player[%d] bets $%d (out of $%d)\n", j, bet[j], dollar[j]);
    }
 
@@ -73,7 +74,7 @@ void offerCards(void) {
    //1. give two card for each players
    for (i=0;i<n_user;i++)
    {
-      cardhold[i][0] = pullCard(); //return CardTray[]
+      cardhold[i][0] = pullCard(); //input cardhold[][] 0 to 51 in random
       cardhold[i][1] = pullCard();
    }
    //2. give two card for the operator (dealer)
@@ -89,7 +90,7 @@ void printCardInitialStatus(void) {
    
    printf(" ----------- CARD OFFERING ---------------\n");
    printf("server\t: " );
-   printf("X ");
+   printf("X "); // not showing server's first cardhold[n_user][0]
    printCard(cardhold[n_user][1]);
    printf("\n");
    printf("-> you\t: " );
@@ -100,7 +101,7 @@ void printCardInitialStatus(void) {
    for(i=1; i<n_user; i++)
    {
       printf("-> player[%d]\t:", i);
-      printCard(cardhold[i][0]); // player1 has cardhold[][]
+      printCard(cardhold[i][0]); // player1 has cardhold[1][]
       printCard(cardhold[i][1]);
       printf("\n");
    }
@@ -117,7 +118,7 @@ int getAction(int i, int j) {
          
       if(go == 0)
       {
-         cardhold[i][j] = pullCard();
+         cardhold[i][j] = pullCard(); // if you 'go' then get one more cardhold[][]
          return 0;
       }
       else
@@ -125,7 +126,7 @@ int getAction(int i, int j) {
    }
    else //other players
    {
-      if (cardSum[i]   < 17 )
+      if (cardSum[i]   < 17 ) // if player's cardSum is less then 17, then 'go'
       {
          cardhold[i][j] = pullCard();
          printf(":::GO:::\n");
@@ -148,7 +149,6 @@ void printUserCardStatus(int user, int cardcnt) {  //cardhold[][]
    for (j=0;j<cardcnt;j++)
    {
       printCard(cardhold[user][j]);
-      printf("*****[%d]%d*********//", cardIndex, cardhold[user][j]);
    }
    printf("\t ::: ");
    
@@ -160,7 +160,7 @@ void printUserCardStatus(int user, int cardcnt) {  //cardhold[][]
 // calculate the card sum and see if : 1. under 21, 2. over 21, 3. blackjack
 int calcStepResult(int user, int cardcnt) {
    
-   int j,anum = 0;
+   int j,anum = 0; // anum is number of A which one player have
    cardSum[user] = 0;
    
    for(j=0;j<cardcnt;j++)
