@@ -46,7 +46,7 @@ int betDollar(void) {
    do
    {
       printf("your betting(total %d) :", dollar[0]);
-      scanf("%d", &bet[0]); // you choose your betting dollar
+      bet[0]=getIntegerInput(); // you choose your betting dollar
       
       if(bet[0] > dollar[0])
          printf("You don't have that money\n");
