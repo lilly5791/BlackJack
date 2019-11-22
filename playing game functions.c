@@ -278,7 +278,7 @@ int checkResult(int roundindex) {
 
 int checkWinner(int user) {
    
-   int i, winnerIndex, //winnerIndex is to define player: if you win then winnerIndex is 0, if player1 wins then winnerIndex is 1
+   int i, winnerIndex; //winnerIndex is to define player: if you win then winnerIndex is 0, if player1 wins then winnerIndex is 1
    int max_dollar=0; // max_dollar is Maximum dollar which players have
    
    for(i=0; i<user; i++)//define max_dollar
